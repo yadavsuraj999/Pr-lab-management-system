@@ -8,15 +8,13 @@ const ProtectedRout = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user == null) {
+            if (user === null) {
                 neviget("/")
             }
         })
         return () => unsubscribe()
     }, [neviget])
-
     return children 
-    
 }
 
 export default ProtectedRout

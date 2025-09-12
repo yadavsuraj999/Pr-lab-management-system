@@ -1,8 +1,9 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../config/firebase";
+import { toast } from "react-toastify";
 
-export const Authcontext = createContext(); 
+export const Authcontext = createContext();
 
 const Authprovider = ({ children }) => {
   const [users, setUsers] = useState(null);
@@ -15,8 +16,17 @@ const Authprovider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast.success("Logged out successfully");
+    } catch (error) {
+      toast.error("Server error");
+    }
+  };
+
   return (
-    <Authcontext.Provider value={users}>
+    <Authcontext.Provider value={{users, handleLogout}}>
       {children}
     </Authcontext.Provider>
   );
