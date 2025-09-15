@@ -1,14 +1,21 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Labcontext } from "../../context/Labprovider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Addlabs = () => {
 
-    const { addLab, isEdit } = useContext(Labcontext)
-
+    const { addLab, isEdit, editLab } = useContext(Labcontext)
     const [labinput, setLabInput] = useState({
         name: "", location: "", capacity: ""
     })
+    useEffect(() => {
+        if (isEdit) {
+            setLabInput(isEdit)
+        }
+    }, [])
+
+    const prams = useParams()
+    console.log(prams);
 
 
     const naviget = useNavigate()
@@ -19,7 +26,11 @@ const Addlabs = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        await addLab(labinput)
+        if (isEdit) {
+            await editLab(isEdit.id, labinput)
+        } else {
+            await addLab(labinput)
+        }
         setLabInput({ name: "", location: "", capacity: "" })
         naviget("/view-lab")
     }

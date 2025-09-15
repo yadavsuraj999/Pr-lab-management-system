@@ -7,7 +7,9 @@ export const Labcontext = createContext();
 
 const Labprovider = ({ children }) => {
     const [allLab, setAllLab] = useState([])
-    const [isEdit, setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(null)
+
+
 
     useEffect(() => {
         fetchLab()
@@ -28,7 +30,7 @@ const Labprovider = ({ children }) => {
     const fetchLab = async () => {
         try {
             const snapShort = await getDocs(collection(db, "labs"))
-            console.log(snapShort);
+            // console.log(snapShort);
             const Labs = snapShort.docs.map((lab) => {
                 return {
                     id: lab.id,
@@ -54,16 +56,20 @@ const Labprovider = ({ children }) => {
 
     const editLab = async (id, data) => {
         try {
-            await updateDoc(doc(db, "labs", id), data)
-        } catch (error) {
-            console.log(error);
-        }
+        setIsEdit(true)
+        await updateDoc(doc(db, "labs", id), data)
+        fetchLab() 
+        setIsEdit(null)
+    } catch (error) {
+        console.log(error);
+        toast.error("Failed to edit lab")
     }
+}
 
 
 
     return (
-        <Labcontext.Provider value={{ addLab, fetchLab, allLab, deleteLab, isEdit, setIsEdit }}>
+        <Labcontext.Provider value={{ addLab, fetchLab, allLab, deleteLab, isEdit, editLab, setIsEdit }}>
             {children}
         </Labcontext.Provider>
     )
