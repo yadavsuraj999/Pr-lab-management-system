@@ -8,9 +8,7 @@ export const Labcontext = createContext();
 const Labprovider = ({ children }) => {
     const [allLab, setAllLab] = useState([])
     const [isEdit, setIsEdit] = useState(null)
-
-
-
+    
     useEffect(() => {
         fetchLab()
     }, [])
@@ -30,7 +28,6 @@ const Labprovider = ({ children }) => {
     const fetchLab = async () => {
         try {
             const snapShort = await getDocs(collection(db, "labs"))
-            // console.log(snapShort);
             const Labs = snapShort.docs.map((lab) => {
                 return {
                     id: lab.id,

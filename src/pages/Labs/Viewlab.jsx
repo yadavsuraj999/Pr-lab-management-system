@@ -3,7 +3,7 @@ import { Labcontext } from "../../context/Labprovider";
 import { Link } from "react-router-dom";
 
 const Viewlab = () => {
-  const { allLab, deleteLab, setIsEdit } = useContext(Labcontext);                                                                                                     
+  const { allLab, deleteLab, setIsEdit } = useContext(Labcontext);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
@@ -37,6 +37,7 @@ const Viewlab = () => {
                     key={lab.id}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
+                    {console.log(lab.id)}
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
                       {lab.name}
                     </td>
