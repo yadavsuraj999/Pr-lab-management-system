@@ -27,6 +27,7 @@ const Viewlab = () => {
                 <th className="px-6 py-4">Name</th>
                 <th className="px-6 py-4">Location</th>
                 <th className="px-6 py-4">Capacity</th>
+                <th className="px-6 py-4">Createdat</th>
                 <th className="px-6 py-4 text-center">Actions</th>
               </tr>
             </thead>
@@ -43,6 +44,7 @@ const Viewlab = () => {
                     </td>
                     <td className="px-6 py-4">{lab.location}</td>
                     <td className="px-6 py-4">{lab.capacity}</td>
+                    <td className="px-6 py-4">{lab.createdAt.toDate().toLocaleDateString()}</td>
                     <td className="px-6 py-4 text-center space-x-4">
                       <Link
                         to="/add-lab"

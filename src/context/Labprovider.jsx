@@ -16,7 +16,10 @@ const Labprovider = ({ children }) => {
 
     const addLab = async (labinput) => {
         try {
-            const labcollection = await addDoc(collection(db, "labs"), labinput)
+             await addDoc(collection(db, "labs"), {
+                ...labinput,
+                createdAt:new Date()
+             })
             toast.success("lab added successfully...")
             fetchLab()
         } catch (error) {
