@@ -18,7 +18,7 @@ const Dashboard = () => {
               <li><a href="#" className="text-gray-700 hover:text-green-600">Dashboard</a></li>
               <li><Link to={"/view-lab"} href="#" className="text-gray-700 hover:text-green-600">Labs</Link></li>
               <li><Link to={"/view-pcs"} className="text-gray-700 hover:text-green-600">Computers</Link></li>
-              <li><a href="#" className="text-gray-700 hover:text-green-600">Students</a></li>
+              <li><Link to={"/view-student"} className="text-gray-700 hover:text-green-600">Students</Link></li>
             </ul>
           </nav>
         </div>
@@ -47,10 +47,10 @@ const Dashboard = () => {
               <p className="text-sm text-gray-500">Register new computer systems.</p>
             </Link>
 
-            <button className="p-6 bg-white rounded-lg shadow hover:shadow-md transition border border-gray-200 hover:border-green-500 text-left">
+            <Link to={"/add-student"} className="p-6 bg-white rounded-lg shadow hover:shadow-md transition border border-gray-200 hover:border-green-500 text-left">
               <h2 className="text-lg font-semibold text-gray-800 mb-2">Add Student</h2>
               <p className="text-sm text-gray-500">Enroll a new student profile.</p>
-            </button>
+            </Link>
           </div>
         </main>
       </div>

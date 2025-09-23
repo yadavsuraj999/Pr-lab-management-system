@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Labcontext } from "../../context/Labprovider";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Addlabs = () => {
   const { addLab, isEdit, editLab, setIsEdit } = useContext(Labcontext);
@@ -13,19 +14,27 @@ const Addlabs = () => {
     }
   }, [isEdit]);
 
+
   const handleChange = (e) => {
     setLabInput({ ...labinput, [e.target.id]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (labinput.name.trim() == "" || labinput.location.trim() == "" || labinput.capacity.trim() == "") {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
     if (isEdit) {
       await editLab(isEdit.id, labinput);
     } else {
       await addLab(labinput);
     }
+
     setLabInput({ name: "", location: "", capacity: "" });
-    setIsEdit(null); 
+    setIsEdit(null);
     navigate("/view-lab");
   };
 
@@ -48,7 +57,6 @@ const Addlabs = () => {
               type="text"
               id="name"
               value={labinput.name}
-              required
               onChange={handleChange}
               className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
             />
@@ -62,7 +70,6 @@ const Addlabs = () => {
               type="text"
               id="location"
               value={labinput.location}
-              required
               onChange={handleChange}
               className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
             />
@@ -76,8 +83,8 @@ const Addlabs = () => {
               type="number"
               id="capacity"
               value={labinput.capacity}
-              required
               onChange={handleChange}
+              disabled={`${isEdit ? true : false}`}
               className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
             />
           </div>

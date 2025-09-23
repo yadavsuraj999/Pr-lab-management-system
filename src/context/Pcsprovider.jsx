@@ -1,26 +1,20 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, increment, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
-import { data } from "react-router-dom";
+import { Labcontext } from "./Labprovider";
 
 export const Pcscontext = createContext();
 
 const Pcsprovider = ({ children }) => {
+    const { fetchLab, allLab } = useContext(Labcontext)
+
     const [pcs, setPcs] = useState([]);
     const [isPcEdit, setIsPcEdit] = useState(null)
 
-    const addPcs = async (newPc) => {
-        try {
-            await addDoc(collection(db, "pcs"),{
-                ...newPc,
-                createdAt: new Date()
-            });
-            fetchPcs();
-        } catch (error) {
-            toast.error(error.message);
-        }
-    };
+    useEffect(() => {
+        fetchPcs();
+    }, []);
 
     const fetchPcs = async () => {
         try {
@@ -35,14 +29,37 @@ const Pcsprovider = ({ children }) => {
         }
     };
 
-    useEffect(() => {
-        fetchPcs();
-    }, []);
+    const addPcs = async (newPc) => {
+        console.log(newPc);
+        try {
+            await addDoc(collection(db, "pcs"), {
+                ...newPc,
+                createdAt: new Date(),
+                stauts: "Available"
+            });
+            await updateDoc(doc(db, "labs", newPc.lab), {
+                currentCapacity: increment(-1)
+            })
+            
+            fetchLab()
+            fetchPcs();
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
 
 
     const deletePcs = async (pcId) => {
+        const p = pcs.find((pc)=>{
+            return pc.id == pcId
+        })
+        console.log(p);
         try {
             await deleteDoc(doc(db, "pcs", pcId))
+            await updateDoc(doc(db, "labs", p.lab), {
+                currentCapacity: increment(1)
+            })
+            fetchLab()
             fetchPcs()
         } catch (error) {
             toast.error(error.message);

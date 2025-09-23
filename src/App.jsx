@@ -9,13 +9,14 @@ import Viewlab from "./pages/Labs/Viewlab"
 import Addpcs from "./pages/Pcs/Addpcs"
 import Viewpcs from "./pages/Pcs/Viewpcs"
 import Addstudent from "./pages/Student/Addstudent"
+import Viewstudent from "./pages/Student/Viewstudent"
 // import Aside from "./components/Aside"
 
 
 const App = () => {
   return (
     <BrowserRouter>
-    {/* <Aside/> */}
+      {/* <Aside/> */}
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashbord" element={<ProtectedRout> <Dashbord /> </ProtectedRout>} />
@@ -29,6 +30,8 @@ const App = () => {
         <Route path="/edit-pc/:pcid" element={<Addpcs />} />
 
         <Route path="/add-student" element={<Addstudent />} />
+        <Route path="/view-student" element={<Viewstudent />} />
+        <Route path="/edit-student/:studentid" element={<Addstudent />} />
 
 
         <Route path="*" element={<ErrorPage />} />

@@ -1,18 +1,70 @@
-import { createContext, useState } from "react"
+import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import { createContext, useEffect, useState } from "react";
+import { db } from "../config/firebase";
+import { toast } from "react-toastify";
 
-
-const StudentContext = createContext()
+export const StudentContext = createContext();
 
 const Studentprovider = ({ children }) => {
+    const [student, setStudent] = useState([]);
+    const [isEdit, setIsEdit] = useState(null)
 
-    const[student, setStudent] = useState([])
+    useEffect(() => {
+        fetchStudent();
+    }, []);
 
+    const fetchStudent = async () => {
+        try {
+            const Snapshot = await getDocs(collection(db, "student"));
+            const allStudent = Snapshot.docs.map((student) => ({
+                id: student.id,
+                ...student.data()
+            }));
+            setStudent(allStudent);
+        } catch (error) {
+            toast.error("Failed to fetch students.");
+        }
+    };
+
+    const addStudent = async (studentData) => {
+        try {
+            await addDoc(collection(db, "student"), {
+                ...studentData,
+                createAt: new Date()
+            });
+            toast.success("Student added successfully...");
+            fetchStudent();
+        } catch (error) {
+            toast.error("Something went wrong while adding student...");
+        }
+    };
+
+    const deleteStudent = async (id) => {
+        try {
+            await deleteDoc(doc(db, "student", id));
+            toast.success("Student deleted successfully.....");
+            fetchStudent();
+        } catch (error) {
+            toast.error("Failed to delete student.");
+        }
+    };
+    
+    const editStudent = async (studentid, data) => {
+        try {
+            await updateDoc(doc(db, "student", studentid), data)
+            toast.success("Student Edit successfully.....");
+            fetchStudent()
+            setIsEdit(null)
+        } catch (error) {
+            toast.error("Failed to update student.");
+        }
+    }
 
     return (
-        <StudentContext.Provider value={student}>
+        <StudentContext.Provider value={{ student, addStudent, deleteStudent, editStudent, setIsEdit, isEdit }}>
             {children}
         </StudentContext.Provider>
-    )
-}
+    );
+};
 
-export default Studentprovider
+export default Studentprovider;

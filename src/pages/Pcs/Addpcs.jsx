@@ -11,7 +11,6 @@ const Addpcs = () => {
     const [addpc, setPc] = useState({
         name: "",
         lab: "",
-        status: "",
     });
 
     const navigate = useNavigate()
@@ -28,8 +27,7 @@ const Addpcs = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (!addpc.name || !addpc.lab || !addpc.status) {
+        if (addpc.name.trim() == "" || addpc.lab.trim() == "") {
             toast.error("Please fill in all fields.");
             return;
         }
@@ -39,7 +37,8 @@ const Addpcs = () => {
         } else {
             await addPcs(addpc);
         }
-        setPc({ name: "", lab: "", status: "" });
+        toast.success("pc add successfully....")
+        setPc({ name: "", lab: "" });
         setIsPcEdit(null)
         navigate("/view-pcs")
     };
@@ -67,7 +66,6 @@ const Addpcs = () => {
                             id="name"
                             name="name"
                             value={addpc.name}
-                            required
                             onChange={handleChange}
                             className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
@@ -85,19 +83,20 @@ const Addpcs = () => {
                             name="lab"
                             value={addpc.lab}
                             onChange={handleChange}
-                            required
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
                             <option value="">Select Lab</option>
-                            {allLab.map((lab) => (
+                            {allLab.filter((lab)=>{
+                                return lab.currentCapacity > 0
+                            }).map((lab) => (
                                 <option key={lab.id} value={lab.id}>
                                     {lab.name}
                                 </option>
-                            ))}
+                            )).length == 0 && <option className="text-white" value="" >no lab found</option>}
                         </select>
                     </div>
 
-                    <div>
+                    {/* <div>
                         <label
                             htmlFor="status"
                             className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -117,7 +116,7 @@ const Addpcs = () => {
                             <option value="Occupied">Occupied</option>
                             <option value="Maintenance">Maintenance</option>
                         </select>
-                    </div>
+                    </div> */}
 
                     <button
                         type="submit"

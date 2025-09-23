@@ -3,7 +3,7 @@ import { Labcontext } from "../../context/Labprovider";
 import { Link } from "react-router-dom";
 
 const Viewlab = () => {
-  const { allLab, deleteLab, setIsEdit } = useContext(Labcontext);
+  const { allLab, deleteLab, setIsEdit, fetchLab } = useContext(Labcontext);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
@@ -38,12 +38,11 @@ const Viewlab = () => {
                     key={lab.id}
                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
-                    {console.log(lab.id)}
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
                       {lab.name}
                     </td>
                     <td className="px-6 py-4">{lab.location}</td>
-                    <td className="px-6 py-4">{lab.capacity}</td>
+                    <td className="px-6 py-4">{lab.currentCapacity}</td>
                     <td className="px-6 py-4">{lab.createdAt.toDate().toLocaleDateString()}</td>
                     <td className="px-6 py-4 text-center space-x-4">
                       <Link
@@ -65,7 +64,7 @@ const Viewlab = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan="4"
+                    colSpan="5"
                     className="text-center py-6 text-gray-700 dark:text-gray-300"
                   >
                     No Labs Found

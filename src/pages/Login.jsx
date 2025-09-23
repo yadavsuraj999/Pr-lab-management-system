@@ -22,6 +22,8 @@ const Login = () => {
             toast.error("invalid email or password")
         }
     }
+
+
     return (
         <div className="flex justify-center items-center  h-screen bg-slate-800">
             <form className="container max-w-sm mx-auto " onSubmit={handleSubmit}>

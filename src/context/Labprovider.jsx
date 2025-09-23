@@ -8,18 +8,18 @@ export const Labcontext = createContext();
 const Labprovider = ({ children }) => {
     const [allLab, setAllLab] = useState([])
     const [isEdit, setIsEdit] = useState(null)
-    
+
     useEffect(() => {
         fetchLab()
     }, [])
 
-
     const addLab = async (labinput) => {
         try {
-             await addDoc(collection(db, "labs"), {
+            await addDoc(collection(db, "labs"), {
                 ...labinput,
-                createdAt:new Date()
-             })
+                createdAt: new Date(),
+                currentCapacity: parseInt(labinput.capacity)
+            })
             toast.success("lab added successfully...")
             fetchLab()
         } catch (error) {
@@ -56,15 +56,16 @@ const Labprovider = ({ children }) => {
 
     const editLab = async (id, data) => {
         try {
-        setIsEdit(true)
-        await updateDoc(doc(db, "labs", id), data)
-        fetchLab() 
-        setIsEdit(null)
-    } catch (error) {
-        console.log(error);
-        toast.error("Failed to edit lab")
+            setIsEdit(true)
+            await updateDoc(doc(db, "labs", id), data)
+            toast.success("lab edit successfully ....")
+            fetchLab()
+            setIsEdit(null)
+        } catch (error) {
+            console.log(error);
+            toast.error("Failed to edit lab")
+        }
     }
-}
 
 
 
