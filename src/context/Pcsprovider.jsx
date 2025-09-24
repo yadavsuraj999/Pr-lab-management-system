@@ -35,12 +35,12 @@ const Pcsprovider = ({ children }) => {
             await addDoc(collection(db, "pcs"), {
                 ...newPc,
                 createdAt: new Date(),
-                stauts: "Available"
+                status: "Available"
             });
             await updateDoc(doc(db, "labs", newPc.lab), {
                 currentCapacity: increment(-1)
             })
-            
+
             fetchLab()
             fetchPcs();
         } catch (error) {
@@ -50,10 +50,10 @@ const Pcsprovider = ({ children }) => {
 
 
     const deletePcs = async (pcId) => {
-        const p = pcs.find((pc)=>{
+        const p = pcs.find((pc) => {
             return pc.id == pcId
         })
-        console.log(p);
+
         try {
             await deleteDoc(doc(db, "pcs", pcId))
             await updateDoc(doc(db, "labs", p.lab), {
@@ -77,7 +77,7 @@ const Pcsprovider = ({ children }) => {
     }
 
     return (
-        <Pcscontext.Provider value={{ pcs, addPcs, deletePcs, isPcEdit, setIsPcEdit, editPc }}>
+        <Pcscontext.Provider value={{ pcs, addPcs, fetchPcs, deletePcs, isPcEdit, setIsPcEdit, editPc }}>
             {children}
         </Pcscontext.Provider>
     );

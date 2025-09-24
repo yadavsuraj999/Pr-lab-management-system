@@ -54,7 +54,7 @@ const Viewpcs = () => {
                                             {pc.name}
                                         </td>
                                         <td className="px-6 py-4">{showLab(pc.lab)}</td>
-                                        <td className="px-6 py-4">{pc.stauts}</td>
+                                        <td className="px-6 py-4">{pc.status}</td>
                                         <td className="px-6 py-4">{pc.createdAt.toDate().toLocaleDateString()}</td>
                                         <td className="px-6 py-4 text-center space-x-4">
                                             <Link

@@ -15,6 +15,12 @@ const Addpcs = () => {
 
     const navigate = useNavigate()
 
+    const options = allLab.filter((lab) => {
+        return lab.currentCapacity > 0
+    })
+
+    console.log(options);
+
     const handleChange = (e) => {
         setPc({ ...addpc, [e.target.name]: e.target.value });
     };
@@ -86,13 +92,12 @@ const Addpcs = () => {
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
                             <option value="">Select Lab</option>
-                            {allLab.filter((lab)=>{
-                                return lab.currentCapacity > 0
-                            }).map((lab) => (
-                                <option key={lab.id} value={lab.id}>
+                            {options.map((lab) => {
+                                return <option key={lab.id} value={lab.id}>
                                     {lab.name}
                                 </option>
-                            )).length == 0 && <option className="text-white" value="" >no lab found</option>}
+                            })}
+                            {options.length == 0 && <option className="text-white" value="" >no lab found</option>}
                         </select>
                     </div>
 

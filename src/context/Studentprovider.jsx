@@ -1,13 +1,16 @@
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { db } from "../config/firebase";
 import { toast } from "react-toastify";
+import { Pcscontext } from "./Pcsprovider";
 
 export const StudentContext = createContext();
 
 const Studentprovider = ({ children }) => {
     const [student, setStudent] = useState([]);
     const [isEdit, setIsEdit] = useState(null)
+
+    const { fetchPcs } = useContext(Pcscontext)
 
     useEffect(() => {
         fetchStudent();
@@ -32,8 +35,12 @@ const Studentprovider = ({ children }) => {
                 ...studentData,
                 createAt: new Date()
             });
-            toast.success("Student added successfully...");
+            await updateDoc(doc(db, "pcs", studentData.pc), {
+                status: "Occupied"
+            })
             fetchStudent();
+            fetchPcs()
+            toast.success("Student added successfully...");
         } catch (error) {
             toast.error("Something went wrong while adding student...");
         }
@@ -48,7 +55,7 @@ const Studentprovider = ({ children }) => {
             toast.error("Failed to delete student.");
         }
     };
-    
+
     const editStudent = async (studentid, data) => {
         try {
             await updateDoc(doc(db, "student", studentid), data)

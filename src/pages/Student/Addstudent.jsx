@@ -18,6 +18,9 @@ const Addstudent = () => {
         pc: ""
     });
 
+
+    const [pcOption, setPcOption] = useState([])
+
     useEffect(() => {
         if (isEdit) {
             setInputStudent({
@@ -29,6 +32,13 @@ const Addstudent = () => {
             });
         }
     }, [isEdit]);
+
+    useEffect(() => {
+        const opPcs = pcs.filter((pc) => {
+            return pc.lab == inputstudent.lab && pc.status === "Available";
+        })
+        setPcOption(opPcs)
+    }, [inputstudent.lab])
 
     const navigate = useNavigate();
 
@@ -51,7 +61,6 @@ const Addstudent = () => {
             toast.success("Student Edit successfully!");
         } else {
             await addStudent(inputstudent);
-            toast.success("Student added successfully!");
         }
 
 
@@ -141,11 +150,12 @@ const Addstudent = () => {
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         >
                             <option value="">Select PC</option>
-                            {pcs.map((pc) => (
-                                <option key={pc.id} value={pc.id}>
-                                    {pc.name}
-                                </option>
-                            ))}
+                            {pcOption.map((optionpc) => {
+                                console.log(optionpc);
+                                return (<option key={optionpc.id} value={optionpc.id}>
+                                    {optionpc.name}
+                                </option>)
+                            })}
                         </select>
                     </div>
 
