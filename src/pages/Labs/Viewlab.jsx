@@ -3,31 +3,33 @@ import { Labcontext } from "../../context/Labprovider";
 import { Link } from "react-router-dom";
 
 const Viewlab = () => {
-  const { allLab, deleteLab, setIsEdit, fetchLab } = useContext(Labcontext);
+  const { allLab, deleteLab, setIsEdit } = useContext(Labcontext);
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-10 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gray-50 text-gray-800 px-4 py-6 pt-28  transition-all duration-300">
+      <div className="max-w-6xl mx-auto ">
+        {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            All Labs
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800">
+            🧪 All Labs
           </h1>
           <Link
             to="/add-lab"
-            className="text-sm font-semibold bg-blue-600 px-4 py-2 rounded-xl text-white hover:bg-blue-700 transition"
+            className="text-sm font-semibold bg-green-600 px-3 py-2 rounded-md text-white hover:bg-green-700 transition"
           >
-            Add Lab
+            ➕ Add Lab
           </Link>
         </div>
 
-        <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white dark:bg-gray-800">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
+        {/* Table */}
+        <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white border border-gray-200">
+          <table className="w-full text-sm text-left text-gray-700">
+            <thead className="text-xs text-gray-600 uppercase bg-gray-100 border-b border-gray-200">
               <tr>
                 <th className="px-6 py-4">Name</th>
                 <th className="px-6 py-4">Location</th>
                 <th className="px-6 py-4">Capacity</th>
-                <th className="px-6 py-4">Createdat</th>
+                <th className="px-6 py-4">Created At</th>
                 <th className="px-6 py-4 text-center">Actions</th>
               </tr>
             </thead>
@@ -36,27 +38,29 @@ const Viewlab = () => {
                 allLab.map((lab) => (
                   <tr
                     key={lab.id}
-                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    className="border-b hover:bg-gray-50 transition"
                   >
-                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                    <td className="px-6 py-4 font-medium text-gray-800">
                       {lab.name}
                     </td>
                     <td className="px-6 py-4">{lab.location}</td>
                     <td className="px-6 py-4">{lab.currentCapacity}</td>
-                    <td className="px-6 py-4">{lab.createdAt.toDate().toLocaleDateString()}</td>
+                    <td className="px-6 py-4">
+                      {lab.createdAt.toDate().toLocaleDateString()}
+                    </td>
                     <td className="px-6 py-4 text-center space-x-4">
                       <Link
                         to="/add-lab"
-                        className="text-blue-600 dark:text-blue-400 hover:underline"
+                        className="text-green-600 hover:underline font-medium"
                         onClick={() => setIsEdit(lab)}
                       >
-                        Edit
+                        ✏️ Edit
                       </Link>
                       <button
-                        className="text-red-600 dark:text-red-400 hover:underline"
+                        className="text-red-600 hover:underline font-medium"
                         onClick={() => deleteLab(lab.id)}
                       >
-                        Delete
+                        🗑️ Delete
                       </button>
                     </td>
                   </tr>
@@ -65,9 +69,9 @@ const Viewlab = () => {
                 <tr>
                   <td
                     colSpan="5"
-                    className="text-center py-6 text-gray-700 dark:text-gray-300"
+                    className="text-center py-6 text-gray-600"
                   >
-                    No Labs Found
+                    🚫 No Labs Found
                   </td>
                 </tr>
               )}

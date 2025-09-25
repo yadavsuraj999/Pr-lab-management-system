@@ -30,6 +30,7 @@ const Studentprovider = ({ children }) => {
     };
 
     const addStudent = async (studentData) => {
+        console.log(studentData);
         try {
             await addDoc(collection(db, "student"), {
                 ...studentData,
@@ -46,10 +47,14 @@ const Studentprovider = ({ children }) => {
         }
     };
 
-    const deleteStudent = async (id) => {
+    const deleteStudent = async (studentId) => {
         try {
-            await deleteDoc(doc(db, "student", id));
+            await deleteDoc(doc(db, "student", studentId.id));
+            await updateDoc(doc(db, "pcs", studentId.pc), {
+                status: "Available"
+            })
             toast.success("Student deleted successfully.....");
+            fetchPcs()
             fetchStudent();
         } catch (error) {
             toast.error("Failed to delete student.");

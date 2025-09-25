@@ -4,6 +4,7 @@ import { Pcscontext } from "../../context/Pcsprovider";
 import { StudentContext } from "../../context/Studentprovider";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Aside from "../../components/Aside";
 
 const Addstudent = () => {
     const { allLab } = useContext(Labcontext);
@@ -15,11 +16,12 @@ const Addstudent = () => {
         email: "",
         grid: "",
         lab: "",
-        pc: ""
+        pc: "",
     });
 
+    const [pcOption, setPcOption] = useState([]);
 
-    const [pcOption, setPcOption] = useState([])
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isEdit) {
@@ -28,19 +30,17 @@ const Addstudent = () => {
                 email: isEdit.email || "",
                 grid: isEdit.grid || "",
                 lab: isEdit.lab || "",
-                pc: isEdit.pc || ""
+                pc: isEdit.pc || "",
             });
         }
     }, [isEdit]);
 
     useEffect(() => {
         const opPcs = pcs.filter((pc) => {
-            return pc.lab == inputstudent.lab && pc.status === "Available";
-        })
-        setPcOption(opPcs)
-    }, [inputstudent.lab])
-
-    const navigate = useNavigate();
+            return pc.lab === inputstudent.lab && pc.status === "Available";
+        });
+        setPcOption(opPcs);
+    }, [inputstudent.lab, pcs]);
 
     const handleChange = (e) => {
         setInputStudent({ ...inputstudent, [e.target.id]: e.target.value });
@@ -49,40 +49,48 @@ const Addstudent = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
-
-        if (inputstudent.name.trim() == "" || inputstudent.email.trim() == "" || inputstudent.grid.trim() == "" || inputstudent.lab.trim() == "" || inputstudent.pc.trim() == "") {
+        if (
+            inputstudent.name.trim() === "" ||
+            inputstudent.email.trim() === "" ||
+            inputstudent.grid.trim() === "" ||
+            inputstudent.lab.trim() === "" ||
+            inputstudent.pc.trim() === ""
+        ) {
             toast.error("Please fill in all fields.");
             return;
         }
 
         if (isEdit && isEdit.id) {
-            await editStudent(isEdit.id, inputstudent)
-            toast.success("Student Edit successfully!");
+            await editStudent(isEdit.id, inputstudent);
+            toast.success("Student edited successfully!");
         } else {
             await addStudent(inputstudent);
+            toast.success("Student added successfully!");
         }
 
-
         setInputStudent({ name: "", email: "", grid: "", lab: "", pc: "" });
-        setIsEdit(null)
-
+        setIsEdit(null);
         navigate("/view-student");
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
-            <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6">
-                <div className="text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                        {isEdit ? "Edit Student" : "Add Student"}
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
+            <div className="w-[500px] mx-auto bg-white border border-gray-200 shadow-md rounded-xl p-8">
+                {/* Header */}
+                <div className="mb-6 text-center">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-1">
+                        {isEdit ? "Update Student" : "Create a Student"}
                     </h2>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Please fill in the information below</p>
+                    <p className="text-gray-500 text-sm">
+                        {isEdit ? "Update the details of the student." : "Enter the details to create a new student."}
+                    </p>
                 </div>
 
-                <form className="space-y-5" onSubmit={handleSubmit}>
+                {/* Form */}
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                    {/* Name */}
                     <div>
-                        <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                             Name
                         </label>
                         <input
@@ -90,12 +98,14 @@ const Addstudent = () => {
                             id="name"
                             value={inputstudent.name}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
+                            placeholder="Enter student's name"
                         />
                     </div>
 
+                    {/* Email */}
                     <div>
-                        <label htmlFor="email" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                             Email
                         </label>
                         <input
@@ -103,12 +113,14 @@ const Addstudent = () => {
                             id="email"
                             value={inputstudent.email}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
+                            placeholder="Enter student's email"
                         />
                     </div>
 
+                    {/* GRID */}
                     <div>
-                        <label htmlFor="grid" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label htmlFor="grid" className="block text-sm font-medium text-gray-700 mb-1">
                             GRID
                         </label>
                         <input
@@ -116,19 +128,21 @@ const Addstudent = () => {
                             id="grid"
                             value={inputstudent.grid}
                             onChange={handleChange}
-                            className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
+                            placeholder="Enter student's GRID"
                         />
                     </div>
 
+                    {/* Lab Select Dropdown */}
                     <div>
-                        <label htmlFor="lab" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="lab" className="block text-sm font-medium text-gray-700 mb-1">
                             Select Lab
                         </label>
                         <select
                             id="lab"
                             value={inputstudent.lab}
                             onChange={handleChange}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
                         >
                             <option value="">Select Lab</option>
                             {allLab.map((lab) => (
@@ -139,31 +153,32 @@ const Addstudent = () => {
                         </select>
                     </div>
 
+                    {/* PC Select Dropdown */}
                     <div>
-                        <label htmlFor="pc" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label htmlFor="pc" className="block text-sm font-medium text-gray-700 mb-1">
                             Select PC
                         </label>
                         <select
                             id="pc"
                             value={inputstudent.pc}
                             onChange={handleChange}
-                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
                         >
                             <option value="">Select PC</option>
-                            {pcOption.map((optionpc) => {
-                                console.log(optionpc);
-                                return (<option key={optionpc.id} value={optionpc.id}>
+                            {pcOption.map((optionpc) => (
+                                <option key={optionpc.id} value={optionpc.id}>
                                     {optionpc.name}
-                                </option>)
-                            })}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
+                    {/* Submit Button */}
                     <button
                         type="submit"
-                        className="w-full py-2 px-4 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700 transition"
+                        className="w-full py-3 rounded-md bg-green-600 hover:bg-green-700 text-white font-semibold text-sm transition"
                     >
-                        {isEdit ? "Edit Student" : "Add Student"}
+                        {isEdit ? "Update Student" : "Add Student"}
                     </button>
                 </form>
             </div>

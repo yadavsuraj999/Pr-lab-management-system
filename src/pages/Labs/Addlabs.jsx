@@ -14,7 +14,6 @@ const Addlabs = () => {
     }
   }, [isEdit]);
 
-
   const handleChange = (e) => {
     setLabInput({ ...labinput, [e.target.id]: e.target.value });
   };
@@ -22,7 +21,11 @@ const Addlabs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (labinput.name.trim() == "" || labinput.location.trim() == "" || labinput.capacity.trim() == "") {
+    if (
+      labinput.name.trim() === "" ||
+      labinput.location.trim() === "" ||
+      labinput.capacity.trim() === ""
+    ) {
       toast.error("Please fill in all fields.");
       return;
     }
@@ -39,31 +42,38 @@ const Addlabs = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 px-4">
-      <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-gray-50 px-4 py-10 flex items-center  transition-all duration-300">
+      <div className="w-[500px] mx-auto bg-white border border-gray-200 shadow-md rounded-xl p-8">
+        <div className="mb-6 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-1">
             {isEdit ? "Update Lab" : "Create a Lab"}
           </h2>
-          <p className="text-sm text-gray-600 dark:text-gray-400">Please fill in the information below</p>
+          <p className="text-gray-500 text-sm">
+            {isEdit
+              ? "Update the details of the lab."
+              : "Enter the details to create a new lab."}
+          </p>
         </div>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
+          {/* Name */}
           <div>
-            <label htmlFor="name" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
-              Name
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              Lab Name
             </label>
             <input
               type="text"
               id="name"
               value={labinput.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
+              placeholder="Enter lab name"
             />
           </div>
 
+          {/* Location */}
           <div>
-            <label htmlFor="location" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
               Location
             </label>
             <input
@@ -71,12 +81,14 @@ const Addlabs = () => {
               id="location"
               value={labinput.location}
               onChange={handleChange}
-              className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
+              placeholder="e.g. Building A, Floor 2"
             />
           </div>
 
+          {/* Capacity */}
           <div>
-            <label htmlFor="capacity" className="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300">
+            <label htmlFor="capacity" className="block text-sm font-medium text-gray-700 mb-1">
               Capacity
             </label>
             <input
@@ -85,13 +97,17 @@ const Addlabs = () => {
               value={labinput.capacity}
               onChange={handleChange}
               disabled={isEdit}
-              className="w-full px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white"
+              className={`w-full px-4 py-2 rounded-md border ${
+                isEdit ? "bg-gray-200 cursor-not-allowed" : "bg-gray-50"
+              } border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 text-gray-800`}
+              placeholder="Enter number of computers"
             />
           </div>
 
+          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-2 px-4 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-700 transition"
+            className="w-full py-3 rounded-md bg-green-600 hover:bg-green-700 text-white font-semibold text-sm transition"
           >
             {isEdit ? "Update Lab" : "Add Lab"}
           </button>
