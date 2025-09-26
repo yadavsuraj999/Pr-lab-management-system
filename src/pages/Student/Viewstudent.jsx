@@ -9,13 +9,11 @@ const Viewstudent = () => {
   const { allLab } = useContext(Labcontext);
   const { pcs } = useContext(Pcscontext);
 
-  // Function to get the Lab name based on ID
   const getLabName = (labId) => {
     const lab = allLab.find((lab) => lab.id === labId);
     return lab ? lab.name : "Unknown Lab";
   };
 
-  // Function to get the PC name based on ID
   const getPcName = (pcId) => {
     const pc = pcs.find((pc) => pc.id === pcId);
     return pc ? pc.name : "Unknown PC";
@@ -24,7 +22,6 @@ const Viewstudent = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 px-4 pt-28 py-10 transition-all duration-300">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800">🎓 All Students</h1>
           <Link
@@ -35,7 +32,6 @@ const Viewstudent = () => {
           </Link>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white border border-gray-200">
           <table className="w-full text-sm text-left text-gray-700">
             <thead className="text-xs text-gray-600 uppercase bg-gray-100 border-b border-gray-200">

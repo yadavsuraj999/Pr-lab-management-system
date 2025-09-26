@@ -1,11 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Authcontext } from "../context/Authprovider";
 import { useContext, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi"; // Optional icons
 
 const Aside = () => {
-    const admin = useContext(Authcontext);
+    const { handleLogout } = useContext(Authcontext);
     const [isOpen, setIsOpen] = useState(false);
+
+    const navigate = useNavigate()
 
     return (
         <>
@@ -33,7 +35,7 @@ const Aside = () => {
                     <nav className="p-4">
                         <ul className="space-y-3">
                             <li>
-                                <Link to={"/dashbord"} className="block px-4 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-700 transition">
+                                <Link to={"/"} className="block px-4 py-2 rounded-md text-gray-700 hover:bg-green-100 hover:text-green-700 transition">
                                     📊 Dashboard
                                 </Link>
                             </li>
@@ -60,7 +62,7 @@ const Aside = () => {
                 <div className="p-6 mt-4">
                     <button
                         className="w-full px-6 py-3 bg-red-500 text-white rounded-md shadow-md hover:bg-red-600 transition font-semibold"
-                        onClick={() => { admin.handleLogout() }}
+                        onClick={() => {handleLogout(), navigate("/login")}}
                     >
                         🔒 Logout
                     </button>

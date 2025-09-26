@@ -15,7 +15,6 @@ const Viewpcs = () => {
   return (
     <div className="min-h-screen bg-gray-50 pt-28 text-gray-800 px-4 py-10 transition-all duration-300">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800">🖥️ All PCs</h1>
           <Link
@@ -26,7 +25,6 @@ const Viewpcs = () => {
           </Link>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white border border-gray-200">
           <table className="w-full text-sm text-left text-gray-700">
             <thead className="text-xs text-gray-600 uppercase bg-gray-100 border-b border-gray-200">

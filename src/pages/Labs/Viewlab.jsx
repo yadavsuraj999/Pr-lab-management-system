@@ -21,7 +21,6 @@ const Viewlab = () => {
           </Link>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto shadow-md sm:rounded-lg bg-white border border-gray-200">
           <table className="w-full text-sm text-left text-gray-700">
             <thead className="text-xs text-gray-600 uppercase bg-gray-100 border-b border-gray-200">

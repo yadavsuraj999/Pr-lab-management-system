@@ -2,11 +2,13 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../config/firebase";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const Authcontext = createContext();
 
 const Authprovider = ({ children }) => {
   const [users, setUsers] = useState(null);
+  // const neviget = useNavigate()
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (data) => {
@@ -20,6 +22,7 @@ const Authprovider = ({ children }) => {
     try {
       await signOut(auth);
       toast.success("Logged out successfully");
+      // neviget("/login")
     } catch (error) {
       toast.error("Server error");
     }

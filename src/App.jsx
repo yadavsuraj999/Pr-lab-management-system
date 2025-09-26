@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Login from "./pages/Login"
-import Dashbord from "./pages/Dashbord"
 import { ToastContainer } from "react-toastify"
 import ProtectedRout from "./components/ProtectedRout"
 import ErrorPage from "./pages/ErrorPage"
@@ -13,6 +12,7 @@ import Viewstudent from "./pages/Student/Viewstudent"
 import Aside from "./components/Aside"
 import { useContext } from "react"
 import { Authcontext } from "./context/Authprovider"
+import Dashboard from "./pages/Dashboard"
 
 
 const App = () => {
@@ -24,20 +24,20 @@ const App = () => {
         {users && <Aside />}
         <div className="h-screen w-full">
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/dashbord" element={<ProtectedRout> <Dashbord /> </ProtectedRout>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<ProtectedRout> <Dashboard /> </ProtectedRout>} />
 
-            <Route path="/add-lab" element={<Addlabs />} />
-            <Route path="/view-lab" element={<Viewlab />} />
-            <Route path="/edit-lab/:labid" element={<Addlabs />} />
+            <Route path="/add-lab" element={<ProtectedRout> <Addlabs /> </ProtectedRout>} />
+            <Route path="/view-lab" element={<ProtectedRout> <Viewlab /> </ProtectedRout>} />
+            <Route path="/edit-lab/:labid" element={<ProtectedRout> <Addlabs /> </ProtectedRout>} />
 
-            <Route path="/add-pcs" element={<Addpcs />} />
-            <Route path="/view-pcs" element={<Viewpcs />} />
-            <Route path="/edit-pc/:pcid" element={<Addpcs />} />
+            <Route path="/add-pcs" element={<ProtectedRout> <Addpcs /> </ProtectedRout>} />
+            <Route path="/view-pcs" element={<ProtectedRout> <Viewpcs /> </ProtectedRout>} />
+            <Route path="/edit-pc/:pcid" element={<ProtectedRout> <Addpcs /> </ProtectedRout>} />
 
-            <Route path="/add-student" element={<Addstudent />} />
-            <Route path="/view-student" element={<Viewstudent />} />
-            <Route path="/edit-student/:studentid" element={<Addstudent />} />
+            <Route path="/add-student" element={<ProtectedRout> <Addstudent /> </ProtectedRout>} />
+            <Route path="/view-student" element={<ProtectedRout> <Viewstudent /> </ProtectedRout>} />
+            <Route path="/edit-student/:studentid" element={<ProtectedRout> <Addstudent /> </ProtectedRout>} />
 
 
             <Route path="*" element={<ErrorPage />} />

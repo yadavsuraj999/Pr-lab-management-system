@@ -56,7 +56,6 @@ const Addlabs = () => {
         </div>
 
         <form className="space-y-5" onSubmit={handleSubmit}>
-          {/* Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               Lab Name
@@ -71,7 +70,6 @@ const Addlabs = () => {
             />
           </div>
 
-          {/* Location */}
           <div>
             <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
               Location
@@ -86,7 +84,6 @@ const Addlabs = () => {
             />
           </div>
 
-          {/* Capacity */}
           <div>
             <label htmlFor="capacity" className="block text-sm font-medium text-gray-700 mb-1">
               Capacity
@@ -104,7 +101,6 @@ const Addlabs = () => {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full py-3 rounded-md bg-green-600 hover:bg-green-700 text-white font-semibold text-sm transition"

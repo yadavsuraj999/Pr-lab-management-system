@@ -76,7 +76,6 @@ const Addstudent = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
             <div className="w-[500px] mx-auto bg-white border border-gray-200 shadow-md rounded-xl p-8">
-                {/* Header */}
                 <div className="mb-6 text-center">
                     <h2 className="text-3xl font-bold text-gray-800 mb-1">
                         {isEdit ? "Update Student" : "Create a Student"}
@@ -86,9 +85,7 @@ const Addstudent = () => {
                     </p>
                 </div>
 
-                {/* Form */}
                 <form className="space-y-6" onSubmit={handleSubmit}>
-                    {/* Name */}
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
                             Name
@@ -103,7 +100,6 @@ const Addstudent = () => {
                         />
                     </div>
 
-                    {/* Email */}
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                             Email
@@ -118,7 +114,6 @@ const Addstudent = () => {
                         />
                     </div>
 
-                    {/* GRID */}
                     <div>
                         <label htmlFor="grid" className="block text-sm font-medium text-gray-700 mb-1">
                             GRID
@@ -133,7 +128,6 @@ const Addstudent = () => {
                         />
                     </div>
 
-                    {/* Lab Select Dropdown */}
                     <div>
                         <label htmlFor="lab" className="block text-sm font-medium text-gray-700 mb-1">
                             Select Lab
@@ -153,7 +147,6 @@ const Addstudent = () => {
                         </select>
                     </div>
 
-                    {/* PC Select Dropdown */}
                     <div>
                         <label htmlFor="pc" className="block text-sm font-medium text-gray-700 mb-1">
                             Select PC
@@ -173,7 +166,6 @@ const Addstudent = () => {
                         </select>
                     </div>
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full py-3 rounded-md bg-green-600 hover:bg-green-700 text-white font-semibold text-sm transition"

@@ -45,7 +45,6 @@ const Addpcs = () => {
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10 flex items-center justify-center">
       <div className="w-[500px] mx-auto bg-white border border-gray-200 shadow-md rounded-xl p-8">
-        {/* Header */}
         <div className="mb-6 text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-1">{isPcEdit ? "Update PC" : "Create a PC"}</h2>
           <p className="text-gray-500 text-sm">
@@ -53,9 +52,7 @@ const Addpcs = () => {
           </p>
         </div>
 
-        {/* Form */}
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* PC Name */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
               PC Name
@@ -71,7 +68,6 @@ const Addpcs = () => {
             />
           </div>
 
-          {/* Lab Select Dropdown */}
           <div>
             <label htmlFor="lab" className="block text-sm font-medium text-gray-700 mb-1">
               Select Lab
@@ -97,7 +93,6 @@ const Addpcs = () => {
             </select>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full py-3 rounded-md bg-green-600 hover:bg-green-700 text-white font-semibold text-sm transition"
