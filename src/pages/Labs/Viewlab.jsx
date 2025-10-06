@@ -27,8 +27,8 @@ const Viewlab = () => {
               <tr>
                 <th className="px-6 py-4">Name</th>
                 <th className="px-6 py-4">Location</th>
-                <th className="px-6 py-4">Capacity</th>
-                <th className="px-6 py-4">Created At</th>
+                <th className="px-6 py-4 text-center">Capacity</th>
+                <th className="px-6 py-4 text-center">Created At</th>
                 <th className="px-6 py-4 text-center">Actions</th>
               </tr>
             </thead>
@@ -43,8 +43,8 @@ const Viewlab = () => {
                       {lab.name}
                     </td>
                     <td className="px-6 py-4">{lab.location}</td>
-                    <td className="px-6 py-4">{lab.currentCapacity}</td>
-                    <td className="px-6 py-4">
+                    <td className="px-6 py-4 text-center">{lab.currentCapacity}</td>
+                    <td className="px-6 py-4 text-center">
                       {lab.createdAt.toDate().toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 text-center space-x-4">

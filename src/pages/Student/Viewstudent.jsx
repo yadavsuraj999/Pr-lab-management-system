@@ -39,7 +39,7 @@ const Viewstudent = () => {
                 <th className="px-6 py-4">Name</th>
                 <th className="px-6 py-4">Email</th>
                 <th className="px-6 py-4">GR ID</th>
-                <th className="px-6 py-4">Lab</th>
+                <th className="px-6 py-4 text-center">Lab</th>
                 <th className="px-6 py-4">PC</th>
                 <th className="px-6 py-4">Created At</th>
                 <th className="px-6 py-4 text-center">Actions</th>
@@ -52,7 +52,7 @@ const Viewstudent = () => {
                     <td className="px-6 py-4 font-medium text-gray-800">{stu.name}</td>
                     <td className="px-6 py-4">{stu.email}</td>
                     <td className="px-6 py-4">{stu.grid}</td>
-                    <td className="px-6 py-4">{getLabName(stu.lab)}</td>
+                    <td className="px-6 py-4 text-center">{getLabName(stu.lab)}</td>
                     <td className="px-6 py-4">{getPcName(stu.pc)}</td>
                     <td className="px-6 py-4">
                       {stu.createAt?.toDate().toLocaleDateString()}

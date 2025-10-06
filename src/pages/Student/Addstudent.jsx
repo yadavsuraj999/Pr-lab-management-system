@@ -62,10 +62,8 @@ const Addstudent = () => {
 
         if (isEdit && isEdit.id) {
             await editStudent(isEdit.id, inputstudent);
-            toast.success("Student edited successfully!");
         } else {
             await addStudent(inputstudent);
-            toast.success("Student added successfully!");
         }
 
         setInputStudent({ name: "", email: "", grid: "", lab: "", pc: "" });

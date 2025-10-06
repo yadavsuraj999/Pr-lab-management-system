@@ -30,7 +30,7 @@ const Viewpcs = () => {
             <thead className="text-xs text-gray-600 uppercase bg-gray-100 border-b border-gray-200">
               <tr>
                 <th className="px-6 py-4">Name</th>
-                <th className="px-6 py-4">Lab</th>
+                <th className="px-6 py-4 ">Lab</th>
                 <th className="px-6 py-4">Status</th>
                 <th className="px-6 py-4">Created At</th>
                 <th className="px-6 py-4 text-center">Actions</th>
@@ -46,7 +46,7 @@ const Viewpcs = () => {
                     <td className="px-6 py-4 font-medium text-gray-800">
                       {pc.name}
                     </td>
-                    <td className="px-6 py-4">{showLab(pc.lab)}</td>
+                    <td className="px-6 py-4 ">{showLab(pc.lab)}</td>
                     <td className="px-6 py-4">{pc.status}</td>
                     <td className="px-6 py-4">
                       {pc.createdAt.toDate().toLocaleDateString()}

@@ -53,10 +53,10 @@ const Pcsprovider = ({ children }) => {
         const p = pcs.find((pc) => {
             return pc.id == pcId
         })
-
+        console.log(p);
         try {
             await deleteDoc(doc(db, "pcs", pcId))
-            await updateDoc(doc(db, "labs", p.lab), {
+            await updateDoc(doc(db, "labs", p?.lab), {
                 currentCapacity: increment(1)
             })
             fetchLab()
