@@ -40,7 +40,7 @@ const Pcsprovider = ({ children }) => {
             await updateDoc(doc(db, "labs", newPc.lab), {
                 currentCapacity: increment(-1)
             })
-
+            toast.success("PC added successfully.");
             fetchLab()
             fetchPcs();
         } catch (error) {
@@ -59,6 +59,7 @@ const Pcsprovider = ({ children }) => {
             await updateDoc(doc(db, "labs", p?.lab), {
                 currentCapacity: increment(1)
             })
+            toast.success("Pc delete successfully...")
             fetchLab()
             fetchPcs()
         } catch (error) {
@@ -70,6 +71,7 @@ const Pcsprovider = ({ children }) => {
         try {
             setIsPcEdit(true)
             await updateDoc(doc(db, "pcs", pcid), data)
+            toast.success("Pc edit successfully...")
             fetchPcs()
         } catch (error) {
             toast.error(error.message);

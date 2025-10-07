@@ -35,8 +35,6 @@ const Addpcs = () => {
     } else {
       await addPcs(addpc);
     }
-
-    toast.success("PC added successfully.");
     setPc({ name: "", lab: "" });
     setIsPcEdit(null);
     navigate("/view-pcs");

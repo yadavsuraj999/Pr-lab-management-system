@@ -24,8 +24,8 @@ const App = () => {
         {users && <Aside />}
         <div className="h-screen w-full">
           <Routes>
-            <Route path="/login" element={<Login />} />
             <Route path="/" element={<ProtectedRout> <Dashboard /> </ProtectedRout>} />
+            <Route path="/login" element={<Login />} />
 
             <Route path="/add-lab" element={<ProtectedRout> <Addlabs /> </ProtectedRout>} />
             <Route path="/view-lab" element={<ProtectedRout> <Viewlab /> </ProtectedRout>} />
