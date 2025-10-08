@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import { addDoc, collection, deleteDoc, doc, getDocs, increment, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, increment, updateDoc } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { Labcontext } from "./Labprovider";
 
@@ -30,7 +30,6 @@ const Pcsprovider = ({ children }) => {
     };
 
     const addPcs = async (newPc) => {
-        console.log(newPc);
         try {
             await addDoc(collection(db, "pcs"), {
                 ...newPc,
@@ -45,25 +44,27 @@ const Pcsprovider = ({ children }) => {
             fetchPcs();
         } catch (error) {
             toast.error(error.message);
+            console.log(error);
         }
     };
 
 
     const deletePcs = async (pcId) => {
-        const p = pcs.find((pc) => {
-            return pc.id == pcId
-        })
-        console.log(p);
         try {
+            const p = (await getDoc(doc(db, "pcs", pcId))).data()
+            console.log(p);
             await deleteDoc(doc(db, "pcs", pcId))
-            await updateDoc(doc(db, "labs", p?.lab), {
+            if(p?.lab){
+                await updateDoc(doc(db, "labs", p.lab), {
                 currentCapacity: increment(1)
             })
+            }
             toast.success("Pc delete successfully...")
             fetchLab()
             fetchPcs()
         } catch (error) {
             toast.error(error.message);
+            console.log(error);
         }
     }
 

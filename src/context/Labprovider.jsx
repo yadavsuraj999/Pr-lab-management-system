@@ -1,7 +1,8 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react"
 import { db } from "../config/firebase";
 import { toast } from "react-toastify";
+import { data } from "react-router-dom";
 
 export const Labcontext = createContext();
 
@@ -46,6 +47,15 @@ const Labprovider = ({ children }) => {
 
     const deleteLab = async (id) => {
         try {
+            const pcSnapShot = await getDocs(query(collection(db, "pcs"), where("lab", "==", id)))
+            console.log(pcSnapShot);
+
+            pcSnapShot.forEach(async (pc) => {
+                await updateDoc(doc(db, "pcs", pc.id), {
+                    lab: null
+                })
+            })
+
             await deleteDoc(doc(db, "labs", id))
             fetchLab()
             toast.success("lab delete successfully ....")
