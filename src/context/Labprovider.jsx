@@ -2,7 +2,6 @@ import { addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where } 
 import { createContext, useEffect, useState } from "react"
 import { db } from "../config/firebase";
 import { toast } from "react-toastify";
-import { data } from "react-router-dom";
 
 export const Labcontext = createContext();
 

@@ -1,20 +1,31 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, increment, updateDoc } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    increment,
+    updateDoc,
+    query,
+    where,
+} from "firebase/firestore";
 import { db } from "../config/firebase";
 import { Labcontext } from "./Labprovider";
 
 export const Pcscontext = createContext();
 
 const Pcsprovider = ({ children }) => {
-    const { fetchLab, allLab } = useContext(Labcontext)
+    const { fetchLab, allLab } = useContext(Labcontext);
 
     const [pcs, setPcs] = useState([]);
-    const [isPcEdit, setIsPcEdit] = useState(null)
+    const [isPcEdit, setIsPcEdit] = useState(false);
 
     useEffect(() => {
         fetchPcs();
-    }, []);
+    }, [allLab]);
 
     const fetchPcs = async () => {
         try {
@@ -34,13 +45,15 @@ const Pcsprovider = ({ children }) => {
             await addDoc(collection(db, "pcs"), {
                 ...newPc,
                 createdAt: new Date(),
-                status: "Available"
+                status: "Available",
             });
-            await updateDoc(doc(db, "labs", newPc.lab), {
-                currentCapacity: increment(-1)
-            })
+            if (newPc.lab) {
+                await updateDoc(doc(db, "labs", newPc.lab), {
+                    currentCapacity: increment(-1),
+                });
+            }
             toast.success("PC added successfully.");
-            fetchLab()
+            fetchLab();
             fetchPcs();
         } catch (error) {
             toast.error(error.message);
@@ -48,39 +61,82 @@ const Pcsprovider = ({ children }) => {
         }
     };
 
-
     const deletePcs = async (pcId) => {
         try {
-            const p = (await getDoc(doc(db, "pcs", pcId))).data()
-            console.log(p);
-            await deleteDoc(doc(db, "pcs", pcId))
-            if(p?.lab){
-                await updateDoc(doc(db, "labs", p.lab), {
-                currentCapacity: increment(1)
-            })
+            const p = (await getDoc(doc(db, "pcs", pcId))).data();
+
+            const studentSnap = await getDocs(
+                query(collection(db, "student"), where("pc", "==", pcId))
+            );
+            for (const stu of studentSnap.docs) {
+                await updateDoc(doc(db, "student", stu.id), {
+                    pc: null,
+                    lab: null,
+                });
             }
-            toast.success("Pc delete successfully...")
-            fetchLab()
-            fetchPcs()
+
+            await deleteDoc(doc(db, "pcs", pcId));
+
+            if (p?.lab) {
+                await updateDoc(doc(db, "labs", p.lab), {
+                    currentCapacity: increment(1),
+                });
+            }
+
+            toast.success("PC deleted successfully...");
+            fetchLab();
+            fetchPcs();
         } catch (error) {
             toast.error(error.message);
             console.log(error);
         }
-    }
+    };
 
     const editPc = async (pcid, data) => {
         try {
-            setIsPcEdit(true)
-            await updateDoc(doc(db, "pcs", pcid), data)
-            toast.success("Pc edit successfully...")
-            fetchPcs()
+            const oldPcSnap = await getDoc(doc(db, "pcs", pcid));
+            const oldPc = oldPcSnap.data()
+            if (oldPc?.lab !== data.lab) {
+                if (oldPc?.lab) {
+                    await updateDoc(doc(db, "labs", oldPc.lab), {
+                        currentCapacity: increment(1),
+                    });
+                }
+                if (data.lab) {
+                    await updateDoc(doc(db, "labs", data.lab), {
+                        currentCapacity: increment(-1),
+                    });
+                }
+
+                const studentSnap = await getDocs(
+                    query(collection(db, "student"), where("pc", "==", pcid))
+                );
+                for (const stu of studentSnap.docs) {
+                    await updateDoc(doc(db, "student", stu.id), {
+                        pc: null,
+                        lab: null,
+                    });
+                }
+
+                data.status = "Available";
+            }
+
+            await updateDoc(doc(db, "pcs", pcid), data);
+
+            toast.success("PC edited successfully...");
+            fetchPcs();
+            fetchLab();
+            setIsPcEdit(false);
         } catch (error) {
             toast.error(error.message);
+            console.log(error);
         }
-    }
+    };
 
     return (
-        <Pcscontext.Provider value={{ pcs, addPcs, fetchPcs, deletePcs, isPcEdit, setIsPcEdit, editPc }}>
+        <Pcscontext.Provider
+            value={{ pcs, addPcs, fetchPcs, deletePcs, isPcEdit, setIsPcEdit, editPc }}
+        >
             {children}
         </Pcscontext.Provider>
     );

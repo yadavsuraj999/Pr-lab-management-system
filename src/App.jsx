@@ -38,7 +38,7 @@ function AppContent() {
           <Route path="/edit-pc/:pcid" element={<ProtectedRout> <Addpcs /> </ProtectedRout>}/>
 
           <Route path="/add-student" element={ <ProtectedRout> <Addstudent /> </ProtectedRout>}/>
-          <Route path="/view-student" element={ <ProtectedRout><Viewstudent /></ProtectedRout>}/>
+          <Route path="/view-student" element={ <ProtectedRout> <Viewstudent /> </ProtectedRout>}/>
           <Route path="/edit-student/:studentid" element={ <ProtectedRout> <Addstudent /> </ProtectedRout>}/>
 
           <Route path="*" element={<ErrorPage />} />

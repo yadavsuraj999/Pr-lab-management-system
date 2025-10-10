@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Pcscontext } from "../../context/Pcsprovider";
 import { Labcontext } from "../../context/Labprovider";
@@ -9,21 +9,31 @@ const Viewstudent = () => {
   const { allLab } = useContext(Labcontext);
   const { pcs } = useContext(Pcscontext);
 
+  useEffect(()=>{
+    
+  })
+
   const getLabName = (labId) => {
-    const lab = allLab.find((lab) => lab.id === labId);
-    return lab ? lab.name : "Unknown Lab";
+    if (!labId) return "Unknown Lab";
+    const lab = allLab.find((l) => l.id === labId);
+    return lab?.name || "Unknown Lab";
   };
 
   const getPcName = (pcId) => {
-    const pc = pcs.find((pc) => pc.id === pcId);
-    return pc ? pc.name : "Unknown PC";
+    if (!pcId) return "Unknown PC";
+    const pc = pcs.find((p) => p.id === pcId);
+    return pc?.name || "Unknown PC";
   };
+
+
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800 px-4 pt-28 py-10 transition-all duration-300">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800">🎓 All Students</h1>
+          <h1 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-800">
+            🎓 All Students
+          </h1>
           <Link
             to="/add-student"
             className="text-sm font-semibold bg-green-600 px-3 py-2 rounded-md text-white hover:bg-green-700 transition"
@@ -55,7 +65,9 @@ const Viewstudent = () => {
                     <td className="px-6 py-4 text-center">{getLabName(stu.lab)}</td>
                     <td className="px-6 py-4">{getPcName(stu.pc)}</td>
                     <td className="px-6 py-4">
-                      {stu.createAt?.toDate().toLocaleDateString()}
+                      {stu.createAt?.toDate
+                        ? stu.createAt.toDate().toLocaleDateString()
+                        : "—"}
                     </td>
                     <td className="px-6 py-4 text-center space-x-4">
                       <Link

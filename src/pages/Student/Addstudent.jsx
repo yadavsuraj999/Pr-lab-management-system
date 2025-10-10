@@ -54,7 +54,7 @@ const Addstudent = () => {
             inputstudent.email.trim() === "" ||
             inputstudent.grid.trim() === "" ||
             inputstudent.lab.trim() === "" ||
-            inputstudent.pc.trim() === ""
+            inputstudent.pc.trim() === "" 
         ) {
             toast.error("Please fill in all fields.");
             return;

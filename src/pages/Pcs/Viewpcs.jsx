@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Pcscontext } from "../../context/Pcsprovider";
 import { Labcontext } from "../../context/Labprovider";
 
 const Viewpcs = () => {
-  const { pcs, deletePcs, setIsPcEdit } = useContext(Pcscontext);
+  const { pcs, deletePcs, editPc } = useContext(Pcscontext);
   const { allLab } = useContext(Labcontext);
-
+  const navigate = useNavigate()
   const showLab = (labId) => {
     const labName = allLab.find((lab) => lab.id === labId);
     return labName?.name || "Unknown Lab";
@@ -53,8 +53,7 @@ const Viewpcs = () => {
                     </td>
                     <td className="px-6 py-4 text-center space-x-4">
                       <Link
-                        to="/add-pcs"
-                        onClick={() => setIsPcEdit(pc)}
+                        to={`/edit-pc/${pc.id}`}
                         className="text-green-600 hover:underline font-medium"
                       >
                         ✏️ Edit

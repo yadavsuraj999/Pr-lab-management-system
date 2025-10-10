@@ -2,7 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Pcscontext } from "../../context/Pcsprovider";
 import { Labcontext } from "../../context/Labprovider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../config/firebase";
 
 const Addpcs = () => {
   const { addPcs, editPc, isPcEdit, setIsPcEdit } = useContext(Pcscontext);
@@ -10,6 +12,7 @@ const Addpcs = () => {
 
   const [addpc, setPc] = useState({ name: "", lab: "" });
   const navigate = useNavigate();
+  const { pcid } = useParams()
 
   const options = allLab.filter((lab) => lab.currentCapacity > 0);
 
@@ -18,20 +21,31 @@ const Addpcs = () => {
   };
 
   useEffect(() => {
-    if (isPcEdit) {
-      setPc(isPcEdit);
+    const getData = async () => {
+      const oldPcSnap = await getDoc(doc(db, "pcs", pcid));
+      console.log(oldPcSnap.id, pcid);
+
+      setPc(oldPcSnap.data())
+      setIsPcEdit(true)
     }
-  }, [isPcEdit]);
+    getData()
+  }, [pcid])
 
   const handleSubmit = async (e) => {
+    console.log(addpc);
+
     e.preventDefault();
-    if (addpc.name.trim() === "" || addpc.lab.trim() === "") {
+    if (addpc?.name?.trim() === "") {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+    if (addpc?.lab?.trim() === "" || addpc?.lab === null) {
       toast.error("Please fill in all fields.");
       return;
     }
 
     if (isPcEdit) {
-      await editPc(isPcEdit.id, addpc);
+      await editPc(addpc.id, addpc);
     } else {
       await addPcs(addpc);
     }
@@ -59,7 +73,7 @@ const Addpcs = () => {
               type="text"
               id="name"
               name="name"
-              value={addpc.name}
+              value={addpc?.name}
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
               placeholder="Enter PC name"
@@ -73,14 +87,14 @@ const Addpcs = () => {
             <select
               id="lab"
               name="lab"
-              value={addpc.lab}
+              value={addpc?.lab || ""}
               onChange={handleChange}
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-gray-800"
             >
               <option value="">Select Lab</option>
               {options.map((lab) => (
-                <option key={lab.id} value={lab.id}>
-                  {lab.name}
+                <option key={lab?.id} value={lab?.id}>
+                  {lab?.name}
                 </option>
               ))}
               {options.length === 0 && (
