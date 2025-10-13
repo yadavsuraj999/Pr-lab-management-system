@@ -13,6 +13,7 @@ import Aside from "./components/Aside";
 import { useContext } from "react";
 import { Authcontext } from "./context/Authprovider";
 import Dashboard from "./pages/Dashboard";
+import Forgotpassword from "./Forgotpassword";
 
 function AppContent() {
   const { users } = useContext(Authcontext);
@@ -28,6 +29,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<ProtectedRout> <Dashboard /> </ProtectedRout>}/>
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot" element={<Forgotpassword />} />
 
           <Route path="/add-lab" element={<ProtectedRout> <Addlabs /> </ProtectedRout>}/>
           <Route path="/view-lab" element={<ProtectedRout> <Viewlab /> </ProtectedRout>}/>

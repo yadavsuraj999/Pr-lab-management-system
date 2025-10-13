@@ -23,36 +23,33 @@ const Addpcs = () => {
   useEffect(() => {
     const getData = async () => {
       const oldPcSnap = await getDoc(doc(db, "pcs", pcid));
-      console.log(oldPcSnap.id, pcid);
-
       setPc(oldPcSnap.data())
       setIsPcEdit(true)
     }
     getData()
   }, [pcid])
 
-  const handleSubmit = async (e) => {
-    console.log(addpc);
+    const handleSubmit = async (e) => {
 
-    e.preventDefault();
-    if (addpc?.name?.trim() === "") {
-      toast.error("Please fill in all fields.");
-      return;
-    }
-    if (addpc?.lab?.trim() === "" || addpc?.lab === null) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
+      e.preventDefault();
+      if (addpc?.name?.trim() === "") {
+        toast.error("Please fill in all fields.");
+        return;
+      }
+      if (addpc?.lab?.trim() === "" || addpc?.lab === null) {
+        toast.error("Please fill in all fields.");
+        return;
+      }
 
-    if (isPcEdit) {
-      await editPc(addpc.id, addpc);
-    } else {
-      await addPcs(addpc);
-    }
-    setPc({ name: "", lab: "" });
-    setIsPcEdit(null);
-    navigate("/view-pcs");
-  };
+      if (isPcEdit) {
+        await editPc(pcid, addpc);
+      } else {
+        await addPcs(addpc);
+      }
+      setPc({ name: "", lab: "" });
+      setIsPcEdit(null);
+      navigate("/view-pcs");
+    };
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-10 flex items-center justify-center">

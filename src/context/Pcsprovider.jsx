@@ -1,17 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { toast } from "react-toastify";
-import {
-    addDoc,
-    collection,
-    deleteDoc,
-    doc,
-    getDoc,
-    getDocs,
-    increment,
-    updateDoc,
-    query,
-    where,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, increment, updateDoc, query, where, setDoc, } from "firebase/firestore";
 import { db } from "../config/firebase";
 import { Labcontext } from "./Labprovider";
 
@@ -92,9 +81,10 @@ const Pcsprovider = ({ children }) => {
         }
     };
 
-    const editPc = async (pcid, data) => {
+    const editPc = async (pcId, data) => {
+        console.log(pcId);
         try {
-            const oldPcSnap = await getDoc(doc(db, "pcs", pcid));
+            const oldPcSnap = await getDoc(doc(db, "pcs", pcId));
             const oldPc = oldPcSnap.data()
             if (oldPc?.lab !== data.lab) {
                 if (oldPc?.lab) {
@@ -109,7 +99,7 @@ const Pcsprovider = ({ children }) => {
                 }
 
                 const studentSnap = await getDocs(
-                    query(collection(db, "student"), where("pc", "==", pcid))
+                    query(collection(db, "student"), where("pc", "==", pcId))
                 );
                 for (const stu of studentSnap.docs) {
                     await updateDoc(doc(db, "student", stu.id), {
@@ -121,7 +111,7 @@ const Pcsprovider = ({ children }) => {
                 data.status = "Available";
             }
 
-            await updateDoc(doc(db, "pcs", pcid), data);
+            await updateDoc(doc(db, "pcs", pcId), data);
 
             toast.success("PC edited successfully...");
             fetchPcs();
